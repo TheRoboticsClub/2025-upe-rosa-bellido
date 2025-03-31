@@ -22,6 +22,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+defaults:
+ run:
+  working-directory: ./docs
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,6 +48,12 @@ jobs:
         with:
           ruby-version: 3.3
           bundler-cache: true
+
+      - name: Setup Jekyll
+        run: gem install jekyll bundler
+
+      - name: Setup Bundle
+        run: bundle
 
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
